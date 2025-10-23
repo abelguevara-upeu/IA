@@ -1,0 +1,77 @@
+﻿Variable;Descripción;Cómo se mide;Rangos de medición / Categorías;pesos iniciales netica;Tipo de variable;Escala / Estado;
+pps_actual_20;Promedio ponderado semestral actual del estudiante. Refleja su desempeño académico acumulado en el semestre en curso.;Escala numérica de notas (1 a 20);- Inicio: 0–7; Inicio: 10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- En proceso: 8–12;- En proceso: 25%;;;
+;;;- Previsto: 13–16;- Previsto: 40%;;;
+;;;- Destacado: 17–20;- Destacado: 25%;;;
+pps_anterior_20;Promedio ponderado semestral del periodo académico anterior. Indica el desempeño previo del estudiante.;Escala numérica de notas (1 a 20);- Inicio: 0–7;- Inicio: 8%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- En proceso: 8–12; En proceso: 22%;;;
+;;;- Previsto: 13–16;Previsto: 45%;;;
+;;;- Destacado: 17–20; Destacado: 25%;;;
+asistencia_teorico_pct;Porcentaje de asistencia a clases teóricas. Refleja el compromiso con las sesiones magistrales.;Porcentaje (%) de asistencia total a clases teóricas.;- Baja: 0–60%;- Baja: 10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- Media: 61–80%;- Media: 20%;;;
+;;;- Alta: 81–90%;- Alta: 50%;;;
+;;;- Excelente: 91–100%;- Excelente: 20%;;;
+asistencia_laboratorio_pct;Porcentaje de asistencia a sesiones prácticas o de laboratorio. Indica constancia en actividades aplicadas.;Porcentaje (%) de asistencia total a prácticas o laboratorios.;- Baja: 0–60%;- Baja: 10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- Media: 61–80%;- Media: 20%;;;
+;;;- Alta: 81–90%;- Alta: 30%;;;
+;;;- Excelente: 91–100%;- Excelente: 40%;;;
+asistencia_total_pct;Promedio ponderado del porcentaje de asistencia general (teórica + laboratorio). Resume la constancia global del estudiante.;Porcentaje promedio total de asistencia (%);- Baja: 0–60%;;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);padre
+;;;- Media: 61–80%;;;;
+;;;- Alta: 81–90%;;;;
+;;;- Excelente: 91–100%;;;;
+autoeficacia_academica;Nivel de confianza del estudiante en su capacidad para organizar, ejecutar y cumplir tareas académicas con éxito.;Escala de autoeficacia académica (Likert de 1 a 5 o puntaje normalizado 0–100).;- Baja: 0–40;- Baja: 10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- Media: 41–60;Media: 35%;;;
+;;;- Alta: 61–80;Alta: 35%;;;
+;;;- Excelente: 81–100;- Excelente: 20%;;;
+entregas_tarea_puntual;Porcentaje de tareas o trabajos entregados dentro del plazo establecido. Refleja responsabilidad y organización académica.;Porcentaje (%) de entregas puntuales en el semestre.;-Critico: 0–60%;10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- Moderado: 61–80%;30%;;;
+;;;- Consistente: 81–90%;40%;;;
+;;;- Ejemplar: 91–100%;20%;;;
+horas_de_estudio_semana;Tiempo semanal promedio dedicado exclusivamente al estudio o repaso académico.;Número de horas de estudio a la semana (autorreporte).;- Insuficiente: 0–5 h;- Baja: 20%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- Limitado: 6–10 h;- Media: 35%;;;
+;;;- Adecuado: 11–18 h;- Alta: 35%;;;
+;;;- Intensivo: >18 h;- Muy alta: 10%;;;
+indice_procrastinacion;Nivel de tendencia del estudiante a postergar tareas académicas o actividades planificadas.;Escala de procrastinación (por ejemplo, PASS o Tuckman), normalizada a 0–100.;- Mínimo: 0–40;- Baja: 25%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+;;;- Ocasional: 41–60;- Media: 35%;;;
+;;;- Frecuente: 61–80;- Alta: 25%;;;
+;;;- constante: 81–100;- Muy alta: 15%;;;
+alimentación;Frecuencia y calidad de la alimentación del estudiante en relación con una dieta equilibrada.;Escala ordinal 1-7 (autoevaluación o frecuencia de comidas saludables por semana).;"- Inadecuada: ≤2 comidas saludables/sem
+- Moderada: 3–5
+- Adecuada: 6–7";"- Inadecuada: 20%
+- Moderada: 50%
+- Adecuada: 30%";Cuantitativa → Categorizada (Ordinal);Discreta (3 estados);
+actividad_física;Frecuencia semanal de actividad física (deportiva o recreativa).;Número de días de ejercicio físico a la semana.;"- Nula: 0 días
+- Baja: 1–2 días
+- Frecuente: 3–4 días
+- Constante: ≥5 días";"- Nula: 15%
+- Baja: 30%
+- Media: 35%
+- Alta: 20%";Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+horas_pantalla_no_academica;Tiempo diario dedicado al uso de pantallas (TV, redes sociales, videojuegos) sin fines académicos.;Promedio de horas diarias no académicas frente a pantallas.;"- Alto: >5h/día
+- Moderado: 2–4h
+- Bajo: <2h";"- Alto: 35%
+- Moderado: 45%
+- Bajo: 20%";Cuantitativa → Categorizada (Ordinal, inversa);Discreta (4 estados);
+horas_sueño;Promedio de horas de sueño diario. Refleja descanso y recuperación.;Número promedio de horas dormidas por noche.;"- Deficiente: <5h
+- Regular: 5–6h
+- Adecuado: 7–8h
+- Excesivo: >8h";"- Deficiente: 10%
+- Regular: 30%
+- Adecuado: 50%
+- Excesivo: 10%";Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+hábitos_vida;Índice general que evalúa la calidad de los hábitos diarios del estudiante (alimentación, actividad física, descanso y tiempo no académico).;Evaluación combinada de las subvariables: alimentación, actividad_física, horas_pantalla_no_académica y horas_sueño.;"- Deficiente:
+- Regular:
+- Bueno:
+- Excelente: ";;Compuesta (dependiente) → Índice global;Discreta (4 estados);padre
+puntualidad_pago;Registro de puntualidad en pagos de matrícula y servicios.;Diferencia en días entre fecha de vencimiento y fecha de pago (promedio semestral);Moroso (>30 días retraso) | Retraso moderado (16–30 días) | A tiempo (1–15 días) | Puntual (0 días);10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+ingresos_mensual;Ingreso mensual del estudiante o del hogar (moneda local).;Ingreso mensual declarado o verificado (normalizar por moneda/local);Muy bajo (≤1 SM) | Bajo (>1–2 SM) | Medio (>2–4 SM) | Alto (>4 SM);15%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+deuda_academica;Monto total adeudado por el estudiante a la institución.;Monto adeudado y número de cuotas vencidas (relación con cuota mensual);Ninguna (0) | Baja (≤1 cuota) | Moderada (>1–3 cuotas) | Alta (>3 cuotas o >50% ingreso);15%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+tipo_financiamiento;Mecanismo principal que cubre el costo educativo.;Categoría del esquema de pago/financiamiento declarado;Beca total | Beca parcial | Crédito estudiantil | Financiamiento familiar | Pago directo;10%;Cualitativa (Nominal) → Mapeable a riesgo;Discreta (5 estados);
+costo_servicio_mensual;Cuota mensual que el estudiante debe pagar por el servicio académico.;Monto mensual en moneda local (o % del ingreso);Muy bajo (≤0.5 SM) | Bajo (>0.5–1 SM) | Medio (>1–2 SM) | Alto (>2 SM);10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+horas_deporte;Horas semanales dedicadas a deporte.;Horas semanales reportadas o registradas;Nula (0 h) | Baja (1–2 h) | Frecuente (3–4 h) | Constante (≥5 h);5%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+horas_cultura;Horas semanales en actividades culturales.;Horas semanales reportadas;Nula (0 h) | Baja (1–2 h) | Moderada (3–4 h) | Alta (≥5 h);5%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+horas_extracurriculares;Horas semanales en actividades extracurriculares (clubes, voluntariado, talleres).;Horas semanales reportadas;Ninguna (0 h) | Baja (1–3 h) | Media (4–7 h) | Alta (≥8 h);5%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+indice_financiero;Índice compuesto que resume la situación financiera del estudiante (padre).;Combinación ponderada de subvariables financieras (normalizadas 0–100);Vulnerable | Riesgo moderado | Estable | Sostenible;20%;Compuesta (dependiente) → Índice global;Discreta (4 estados);padre
+horas_trabajo_semana;Horas semanales trabajadas por el estudiante.;Horas semanales reportadas por el estudiante;Ninguna (0 h) | Parcial baja (1–10 h) | Parcial alta (11–20 h) | Tiempo completo (>20 h);10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+estres;Nivel de estrés percibido por el estudiante (normalizado).;Puntaje de cuestionario estandarizado (PSS u otro) normalizado a 0–100;Bajo (0–25) | Moderado (26–50) | Alto (51–75) | Muy alto (76–100);15%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
+apoyo_social;Nivel de apoyo social percibido (familia, pares, institucional).;Puntaje de escala tipo Likert o cuestionario validado (normalizado 0–100);Insuficiente (0–25) | Moderado (26–50) | Bueno (51–75) | Excelente (76–100);10%;Cuantitativa → Categorizada (Ordinal);Discreta (4 estados);
