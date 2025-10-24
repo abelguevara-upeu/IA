@@ -1,0 +1,27 @@
+Variable,Descripcion,Como_se_mide,Categorias,Rango_pesos_iniciales_netica,Tipo_variable,Escala_Estado,Padre
+pps_actual_20,Promedio ponderado semestral actual del estudiante (nota 1-20),Escala numérica (1-20),Inicio:0-7|En proceso:8-12|Previsto:13-16|Destacado:17-20,10%,ordinal,discreta,
+pps_anterior_20,Promedio ponderado del periodo académico anterior (nota 1-20),Escala numérica (1-20),Inicio:0-7|En proceso:8-12|Previsto:13-16|Destacado:17-20,8%,ordinal,discreta,
+asistencia_teorico_pct,Porcentaje de asistencia a clases teóricas,Porcentaje (%),Baja:0-60|Media:61-80|Alta:81-90|Excelente:91-100,10%,ordinal,discreta,asistencia_total_pct
+asistencia_laboratorio_pct,Porcentaje de asistencia a sesiones de laboratorio/prácticas,Porcentaje (%),Baja:0-60|Media:61-80|Alta:81-90|Excelente:91-100,30%,ordinal,discreta,asistencia_total_pct
+asistencia_total_pct,Promedio ponderado de asistencia (teórica + laboratorio),Porcentaje (%),Baja|Media|Alta|Excelente,,compuesta,discreta,
+autoeficacia_academica,Nivel de confianza en capacidades académicas,Escala Likert (1-5) o 0-100,Baja|Media|Alta|Excelente,35%,ordinal,discreta,
+entregas_tarea_puntual,Porcentaje de entregas puntuales,Porcentaje (%),Crítico:0-60|Moderado:61-80|Consistente:81-90|Ejemplar:91-100,10%,ordinal,discreta,
+horas_de_estudio_semana,Horas promedio de estudio por semana (autorreporte),Horas semanales,Insuficiente:0-5|Limitado:6-10|Adecuado:11-18|Intensivo:>18,20%,ordinal,discreta,
+indice_procrastinacion,Nivel de procrastinación (0-100),Puntaje normalizado 0-100,Mínimo:0-40|Ocasional:41-60|Frecuente:61-80|Constante:81-100,25%,ordinal,discreta,
+alimentacion,Frecuencia y calidad de alimentación (índice 1-7),Escala ordinal 1-7,Inadecuada|Moderada|Adecuada,20%,ordinal,discreta,habitos_vida
+actividad_fisica,Frecuencia semanal de actividad física (días/semana),Número de días, Nula|Baja|Frecuente|Constante,30%,ordinal,discreta,habitos_vida
+horas_pantalla_no_academica,Horas diarias de pantalla sin fines académicos,Horas/día,Alto:>5|Moderado:2-4|Bajo:<2,45%,ordinal,discreta,habitos_vida
+horas_sueno,Promedio de horas de sueño por noche,Horas/día,Deficiente:<5|Regular:5-6|Adecuado:7-8|Excesivo:>8,50%,ordinal,discreta,habitos_vida
+habitos_vida,Índice compuesto de hábitos (alimentación, actividad, pantalla, sueño),Combinación normalizada,Deficiente|Regular|Bueno|Excelente,,compuesta,discreta,
+puntualidad_pago,Cumplimiento con plazos de pago (registro administrativo),Binario,Puntual|Impuntual,70%,binaria,discreta,indice_financiero
+ingresos_mensual,Ingreso mensual del estudiante/hogar (categoría),Categoría monetaria,Muy bajo|Bajo|Medio|Alto,,ordinal,discreta,indice_financiero
+deuda_academica,Indica si existe deuda académica pendiente,Binario,Con deuda|Sin deuda,40%,binaria,discreta,indice_financiero
+tipo_financiamiento,Fuente principal de financiamiento,Categoría,Padres|Mixto|Propio|Beca total|Beca parcial,50%,categórica,discreta,indice_financiero
+costo_servicio_mensual,Costo/valor de la cuota mensual (categoría),Categoría,Muy bajo|Bajo|Medio|Alto,,ordinal,discreta,indice_financiero
+indice_financiero,Índice financiero compuesto (subvariables financieras),Combinación normalizada,Vulnerable|Riesgo moderado|Estable|Sostenible,,compuesta,discreta,
+horas_deporte,Horas semanales en deporte/actividad física,Horas/semana,Nula|Ocasional|Frecuente|Constante,20%,ordinal,discreta,horas_extracurriculares
+horas_cultura,Horas semanales en actividades culturales/Hobby,Horas/semana,Nula|Ocasional|Frecuente|Constante,15%,ordinal,discreta,horas_extracurriculares
+horas_extracurriculares,Índice de participación en actividades extracurriculares,Combinación inferida,Baja|Media|Alta,,compuesta,discreta,
+horas_trabajo_semana,Horas semanales trabajadas por el estudiante,Horas/semana,Ninguna|Parcial baja|Parcial alta|Tiempo completo,,ordinal,discreta,
+estres,Nivel de estrés percibido (0-100),Puntaje normalizado,Bajo|Moderado|Alto|Muy alto,,ordinal,discreta,
+apoyo_social,Nivel de apoyo social percibido (0-100),Puntaje normalizado,Insuficiente|Moderado|Bueno|Excelente,,ordinal,discreta,
