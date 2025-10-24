@@ -1,0 +1,27 @@
+Correlaciones (Pearson) entre columnas clave:
+
+                         pps_actual_20  horas_de_estudio_semana  horas_trabajo_semana    estres  desercion
+pps_actual_20                 1.000000                 0.460777             -0.634066 -0.359135  -0.158614
+horas_de_estudio_semana       0.460777                 1.000000             -0.292590  0.266888  -0.118968
+horas_trabajo_semana         -0.634066                -0.292590              1.000000  0.537263   0.158519
+estres                       -0.359135                 0.266888              0.537263  1.000000   0.068743
+desercion                    -0.158614                -0.118968              0.158519  0.068743   1.000000
+
+
+Tasa de deserción por cuartil de pps_actual_20:
+
+pps_q
+0    0.620
+1    0.556
+2    0.468
+3    0.388
+
+
+Promedio pps_actual_20 por tipo_financiamiento:
+
+tipo_financiamiento
+Beca_parcial               13.139721
+Beca_total                 14.047952
+Credito                    12.414761
+Financiamiento_familiar    12.595527
+Pago_directo               12.624048
