@@ -1,0 +1,312 @@
+[
+  {
+    "Variable": "pps_actual_20",
+    "Descripcion": "Promedio ponderado semestral actual del estudiante (nota 1-20)",
+    "Como_se_mide": "Escala numérica (1-20)",
+    "Categorias": [
+      {"categoria": "Inicio", "rango": "0-7"},
+      {"categoria": "En proceso", "rango": "8-12"},
+      {"categoria": "Previsto", "rango": "13-16"},
+      {"categoria": "Destacado", "rango": "17-20"}
+    ],
+    "Rango_pesos_iniciales_netica": "10%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "pps_anterior_20",
+    "Descripcion": "Promedio ponderado del periodo académico anterior (nota 1-20)",
+    "Como_se_mide": "Escala numérica (1-20)",
+    "Categorias": [
+      {"categoria": "Inicio", "rango": "0-7"},
+      {"categoria": "En proceso", "rango": "8-12"},
+      {"categoria": "Previsto", "rango": "13-16"},
+      {"categoria": "Destacado", "rango": "17-20"}
+    ],
+    "Rango_pesos_iniciales_netica": "8%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "asistencia_teorico_pct",
+    "Descripcion": "Porcentaje de asistencia a clases teóricas",
+    "Como_se_mide": "Porcentaje (%)",
+    "Categorias": [
+      {"categoria": "Baja", "rango": "0-60"},
+      {"categoria": "Media", "rango": "61-80"},
+      {"categoria": "Alta", "rango": "81-90"},
+      {"categoria": "Excelente", "rango": "91-100"}
+    ],
+    "Rango_pesos_iniciales_netica": "10%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "asistencia_total_pct"
+  },
+  {
+    "Variable": "asistencia_laboratorio_pct",
+    "Descripcion": "Porcentaje de asistencia a sesiones de laboratorio/prácticas",
+    "Como_se_mide": "Porcentaje (%)",
+    "Categorias": [
+      {"categoria": "Baja", "rango": "0-60"},
+      {"categoria": "Media", "rango": "61-80"},
+      {"categoria": "Alta", "rango": "81-90"},
+      {"categoria": "Excelente", "rango": "91-100"}
+    ],
+    "Rango_pesos_iniciales_netica": "30%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "asistencia_total_pct"
+  },
+  {
+    "Variable": "asistencia_total_pct",
+    "Descripcion": "Promedio ponderado de asistencia (teórica + laboratorio)",
+    "Como_se_mide": "Porcentaje (%)",
+    "Categorias": ["Baja", "Media", "Alta", "Excelente"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "compuesta",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "autoeficacia_academica",
+    "Descripcion": "Nivel de confianza en capacidades académicas",
+    "Como_se_mide": "Escala Likert (1-5) o 0-100",
+    "Categorias": ["Baja", "Media", "Alta", "Excelente"],
+    "Rango_pesos_iniciales_netica": "35%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "entregas_tarea_puntual",
+    "Descripcion": "Porcentaje de entregas puntuales",
+    "Como_se_mide": "Porcentaje (%)",
+    "Categorias": [
+      {"categoria": "Crítico", "rango": "0-60"},
+      {"categoria": "Moderado", "rango": "61-80"},
+      {"categoria": "Consistente", "rango": "81-90"},
+      {"categoria": "Ejemplar", "rango": "91-100"}
+    ],
+    "Rango_pesos_iniciales_netica": "10%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "horas_de_estudio_semana",
+    "Descripcion": "Horas promedio de estudio por semana (autorreporte)",
+    "Como_se_mide": "Horas semanales",
+    "Categorias": [
+      {"categoria": "Insuficiente", "rango": "0-5"},
+      {"categoria": "Limitado", "rango": "6-10"},
+      {"categoria": "Adecuado", "rango": "11-18"},
+      {"categoria": "Intensivo", "rango": ">18"}
+    ],
+    "Rango_pesos_iniciales_netica": "20%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "indice_procrastinacion",
+    "Descripcion": "Nivel de procrastinación (0-100)",
+    "Como_se_mide": "Puntaje normalizado 0-100",
+    "Categorias": [
+      {"categoria": "Mínimo", "rango": "0-40"},
+      {"categoria": "Ocasional", "rango": "41-60"},
+      {"categoria": "Frecuente", "rango": "61-80"},
+      {"categoria": "Constante", "rango": "81-100"}
+    ],
+    "Rango_pesos_iniciales_netica": "25%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "alimentacion",
+    "Descripcion": "Frecuencia y calidad de alimentación (índice 1-7)",
+    "Como_se_mide": "Escala ordinal 1-7",
+    "Categorias": ["Inadecuada", "Moderada", "Adecuada"],
+    "Rango_pesos_iniciales_netica": "20%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "habitos_vida"
+  },
+  {
+    "Variable": "actividad_fisica",
+    "Descripcion": "Frecuencia semanal de actividad física (días/semana)",
+    "Como_se_mide": "Número de días",
+    "Categorias": ["Nula", "Baja", "Frecuente", "Constante"],
+    "Rango_pesos_iniciales_netica": "30%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "habitos_vida"
+  },
+  {
+    "Variable": "horas_pantalla_no_academica",
+    "Descripcion": "Horas diarias de pantalla sin fines académicos",
+    "Como_se_mide": "Horas/día",
+    "Categorias": [
+      {"categoria": "Alto", "rango": ">5"},
+      {"categoria": "Moderado", "rango": "2-4"},
+      {"categoria": "Bajo", "rango": "<2"}
+    ],
+    "Rango_pesos_iniciales_netica": "45%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "habitos_vida"
+  },
+  {
+    "Variable": "horas_sueno",
+    "Descripcion": "Promedio de horas de sueño por noche",
+    "Como_se_mide": "Horas/día",
+    "Categorias": [
+      {"categoria": "Deficiente", "rango": "<5"},
+      {"categoria": "Regular", "rango": "5-6"},
+      {"categoria": "Adecuado", "rango": "7-8"},
+      {"categoria": "Excesivo", "rango": ">8"}
+    ],
+    "Rango_pesos_iniciales_netica": "50%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "habitos_vida"
+  },
+  {
+    "Variable": "habitos_vida",
+    "Descripcion": "Índice compuesto de hábitos (alimentación, actividad, pantalla, sueño)",
+    "Como_se_mide": "Combinación normalizada",
+    "Categorias": ["Deficiente", "Regular", "Bueno", "Excelente"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "compuesta",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "puntualidad_pago",
+    "Descripcion": "Cumplimiento con plazos de pago (registro administrativo)",
+    "Como_se_mide": "Binario",
+    "Categorias": [
+      {"categoria": "Puntual", "porcentaje": "70%"},
+      {"categoria": "Impuntual", "porcentaje": "30%"}
+    ],
+    "Rango_pesos_iniciales_netica": "70%",
+    "Tipo_variable": "binaria",
+    "Escala_Estado": "discreta",
+    "Padre": "indice_financiero"
+  },
+  {
+    "Variable": "ingresos_mensual",
+    "Descripcion": "Ingreso mensual del estudiante/hogar (categoría)",
+    "Como_se_mide": "Categoría monetaria",
+    "Categorias": ["Muy bajo", "Bajo", "Medio", "Alto"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "indice_financiero"
+  },
+  {
+    "Variable": "deuda_academica",
+    "Descripcion": "Indica si existe deuda académica pendiente",
+    "Como_se_mide": "Binario",
+    "Categorias": [
+      {"categoria": "Con deuda", "porcentaje": "40%"},
+      {"categoria": "Sin deuda", "porcentaje": "60%"}
+    ],
+    "Rango_pesos_iniciales_netica": "40%",
+    "Tipo_variable": "binaria",
+    "Escala_Estado": "discreta",
+    "Padre": "indice_financiero"
+  },
+  {
+    "Variable": "tipo_financiamiento",
+    "Descripcion": "Fuente principal de financiamiento",
+    "Como_se_mide": "Categoría",
+    "Categorias": ["Padres", "Mixto", "Propio", "Beca total", "Beca parcial"],
+    "Rango_pesos_iniciales_netica": "50%",
+    "Tipo_variable": "categórica",
+    "Escala_Estado": "discreta",
+    "Padre": "indice_financiero"
+  },
+  {
+    "Variable": "costo_servicio_mensual",
+    "Descripcion": "Costo/valor de la cuota mensual (categoría)",
+    "Como_se_mide": "Categoría",
+    "Categorias": ["Muy bajo", "Bajo", "Medio", "Alto"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "indice_financiero"
+  },
+  {
+    "Variable": "indice_financiero",
+    "Descripcion": "Índice financiero compuesto (subvariables financieras)",
+    "Como_se_mide": "Combinación normalizada",
+    "Categorias": ["Vulnerable", "Riesgo moderado", "Estable", "Sostenible"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "compuesta",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "horas_deporte",
+    "Descripcion": "Horas semanales en deporte/actividad física",
+    "Como_se_mide": "Horas/semana",
+    "Categorias": ["Nula", "Ocasional", "Frecuente", "Constante"],
+    "Rango_pesos_iniciales_netica": "20%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "horas_extracurriculares"
+  },
+  {
+    "Variable": "horas_cultura",
+    "Descripcion": "Horas semanales en actividades culturales/Hobby",
+    "Como_se_mide": "Horas/semana",
+    "Categorias": ["Nula", "Ocasional", "Frecuente", "Constante"],
+    "Rango_pesos_iniciales_netica": "15%",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": "horas_extracurriculares"
+  },
+  {
+    "Variable": "horas_extracurriculares",
+    "Descripcion": "Índice de participación en actividades extracurriculares",
+    "Como_se_mide": "Combinación inferida",
+    "Categorias": ["Baja", "Media", "Alta"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "compuesta",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "horas_trabajo_semana",
+    "Descripcion": "Horas semanales trabajadas por el estudiante",
+    "Como_se_mide": "Horas/semana",
+    "Categorias": ["Ninguna", "Parcial baja", "Parcial alta", "Tiempo completo"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "estres",
+    "Descripcion": "Nivel de estrés percibido (0-100)",
+    "Como_se_mide": "Puntaje normalizado",
+    "Categorias": ["Bajo", "Moderado", "Alto", "Muy alto"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  },
+  {
+    "Variable": "apoyo_social",
+    "Descripcion": "Nivel de apoyo social percibido (0-100)",
+    "Como_se_mide": "Puntaje normalizado",
+    "Categorias": ["Insuficiente", "Moderado", "Bueno", "Excelente"],
+    "Rango_pesos_iniciales_netica": "",
+    "Tipo_variable": "ordinal",
+    "Escala_Estado": "discreta",
+    "Padre": ""
+  }
+]
