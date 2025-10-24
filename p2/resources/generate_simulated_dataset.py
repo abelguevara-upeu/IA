@@ -14,6 +14,8 @@ El script está comentado y es determinista usando una semilla.
 """
 import os
 import random
+import json
+import math
 import numpy as np
 import pandas as pd
 
@@ -39,16 +41,92 @@ def generate(n=1000, seed=42, out_path=None, noise_level=0.05, outlier_frac=0.02
     random.seed(seed)
     np.random.seed(seed)
 
+    # Cargar diccionario estructurado y validar relaciones padre-hijo
+    dic_path = os.path.join(os.path.dirname(__file__), 'diccionario', 'diccionario_limpio.json')
+    if os.path.exists(dic_path):
+        with open(dic_path, 'r', encoding='utf-8') as f:
+            dic = json.load(f)
+    else:
+        raise FileNotFoundError(f"Diccionario no encontrado en {dic_path}")
+
+    dic_map = {v['Variable']: v for v in dic}
+
+    # Validar que los padres referenciados existan (soporta múltiples padres en 'Padres')
+    parent_names = set()
+    for v in dic:
+        for p in v.get('Padres', []):
+            if p:
+                parent_names.add(p)
+    missing_parents = [p for p in sorted(parent_names) if p not in dic_map]
+    if missing_parents:
+        raise ValueError(f"Padres referenciados en el diccionario no existen: {missing_parents}")
+
+    # Construir hijos por padre y verificar variables compuestas tienen hijos
+    children_by_parent = {}
+    for v in dic:
+        for p in v.get('Padres', []):
+            if p:
+                children_by_parent.setdefault(p, []).append(v['Variable'])
+    composed_vars = [v['Variable'] for v in dic if v.get('Tipo_variable') and str(v.get('Tipo_variable')).lower().startswith('comp')]
+    missing_children = [cv for cv in composed_vars if cv not in children_by_parent or len(children_by_parent.get(cv, [])) == 0]
+    if missing_children:
+        raise ValueError(f"Variables compuestas sin hijos en el diccionario: {missing_children}")
+
+    # Preparar categorías/probabilidades para tipo_financiamiento según diccionario
+    tf_def = dic_map.get('tipo_financiamiento')
+    if tf_def:
+        raw_cats = tf_def.get('Categorias') or []
+        # Si items son objetos con porcentaje, extraerlo
+        financiamiento_cats = []
+        financiamiento_probs = []
+        for it in raw_cats:
+            if isinstance(it, dict):
+                financiamiento_cats.append(it.get('categoria'))
+                pct = it.get('porcentaje')
+                if pct:
+                    try:
+                        financiamiento_probs.append(float(str(pct).strip('%')) / 100.0)
+                    except Exception:
+                        financiamiento_probs.append(None)
+                else:
+                    financiamiento_probs.append(None)
+            else:
+                financiamiento_cats.append(it)
+                financiamiento_probs.append(None)
+        # Si no se especificaron probabilidades, asignar fallback razonable
+        if all(p is None for p in financiamiento_probs):
+            if set(['Padres', 'Mixto', 'Propio']).issubset(set(financiamiento_cats)):
+                financiamiento_probs = [0.5 if c == 'Padres' else 0.3 if c == 'Mixto' else 0.2 if c == 'Propio' else 0.0 for c in financiamiento_cats]
+                s = sum(financiamiento_probs)
+                if s <= 0:
+                    financiamiento_probs = [1.0 / len(financiamiento_cats)] * len(financiamiento_cats)
+                else:
+                    financiamiento_probs = [p / s for p in financiamiento_probs]
+            else:
+                financiamiento_probs = [1.0 / len(financiamiento_cats)] * len(financiamiento_cats) if financiamiento_cats else [0.2, 0.2, 0.2, 0.2, 0.2]
+        else:
+            # rellenar probabilidades faltantes y normalizar
+            probs = [0.0 if p is None else p for p in financiamiento_probs]
+            missing = sum(1 for p in financiamiento_probs if p is None)
+            rem = max(0.0, 1.0 - sum(p for p in probs))
+            if missing > 0:
+                for i, p in enumerate(financiamiento_probs):
+                    if p is None:
+                        probs[i] = rem / missing
+            # normalizar
+            s = sum(probs)
+            if s <= 0:
+                probs = [1.0 / len(probs)] * len(probs)
+            else:
+                probs = [p / s for p in probs]
+            financiamiento_probs = probs
+    else:
+        financiamiento_cats = ['Beca_total', 'Beca_parcial', 'Financiamiento_familiar', 'Pago_directo', 'Credito']
+        financiamiento_probs = [0.08, 0.12, 0.45, 0.30, 0.05]
+
     # --- Parámetros razonables para simular poblaciones universitarias ---
-    # Probabilidades de tipos de financiamiento (ajustables)
-    financiamiento_cats = [
-        'Beca_total',
-        'Beca_parcial',
-        'Financiamiento_familiar',
-        'Pago_directo',
-        'Credito'
-    ]
-    financiamiento_probs = [0.08, 0.12, 0.45, 0.30, 0.05]
+    # Las categorías/probabilidades de tipo de financiamiento se definirán a partir
+    # del diccionario estructurado cuando esté disponible más abajo.
 
     # Generación base
     tipo_fin = np.random.choice(financiamiento_cats, size=n, p=financiamiento_probs)
@@ -243,6 +321,39 @@ def generate(n=1000, seed=42, out_path=None, noise_level=0.05, outlier_frac=0.02
                 # recortar negatividades donde no aplican
                 if col in ['ingresos_mensual', 'deuda_meses', 'horas_trabajo_semana', 'horas_deporte', 'actividad_fisica', 'costo_servicio_mensual']:
                     df[col] = np.clip(df[col], 0, None)
+
+    # Reducir decimales innecesarios: aplicar reglas por tipo (evita muchos decimales poco creíbles)
+    round_map = {
+        'ingresos_mensual': 0,
+        'deuda_meses': 0,
+        'indice_financiero': 1,
+        'horas_trabajo_semana': 0,
+        'horas_de_estudio_semana': 1,
+        'horas_sueno': 2,
+        'horas_deporte': 0,
+        'horas_cultura': 0,
+        'horas_extracurriculares': 0,
+        'actividad_fisica': 0,
+        'alimentacion_score': 1,
+        'indice_procrastinacion': 1,
+        'apoyo_social': 1,
+        'estres': 1,
+        'asistencia_teorico_pct': 1,
+        'asistencia_laboratorio_pct': 1,
+        'asistencia_total_pct': 1,
+        'entregas_tarea_puntual': 1,
+        'autoeficacia_academica': 1,
+        'pps_actual_20': 2,
+        'pps_anterior_20': 2,
+        'costo_servicio_mensual': 0
+    }
+    for col, digs in round_map.items():
+        if col in df.columns:
+            if digs == 0:
+                # convertir a entero donde corresponde
+                df[col] = np.round(df[col]).astype(int)
+            else:
+                df[col] = df[col].round(digs)
 
     # ---------------------- Introducir outliers plausibles ----------------------
     n_out = int(max(1, round(outlier_frac * n)))
