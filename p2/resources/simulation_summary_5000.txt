@@ -1,14 +1,14 @@
 Correlaciones (Pearson) entre columnas clave:
 
                          pps_actual_20  horas_de_estudio_semana  horas_trabajo_semana    estres  desercion
-pps_actual_20                 1.000000                 0.617386              0.018120 -0.034532  -0.235289
-horas_de_estudio_semana       0.617386                 1.000000              0.005947  0.154147  -0.134779
-horas_trabajo_semana          0.018120                 0.005947              1.000000  0.516154   0.177638
-estres                       -0.034532                 0.154147              0.516154  1.000000   0.105896
-desercion                    -0.235289                -0.134779              0.177638  0.105896   1.000000
+pps_actual_20                 1.000000                 0.806867              0.015347 -0.033650  -0.238332
+horas_de_estudio_semana       0.806867                 1.000000              0.018447  0.069055  -0.191407
+horas_trabajo_semana          0.015347                 0.018447              1.000000  0.516046   0.175893
+estres                       -0.033650                 0.069055              0.516046  1.000000   0.110957
+desercion                    -0.238332                -0.191407              0.175893  0.110957   1.000000
 
-Tasa de deserción general: 0.208
-Tasa de deserción (trabajo>20h): 0.562
-Tasa de deserción (beca_total): 0.122
-Tasa de deserción (sueño<5h): 0.253
-Tasa de deserción (estres>80): 0.000
+Tasa de deserción general: 0.207
+Tasa de deserción (trabajo>20h): 0.556
+Tasa de deserción (beca_total): 0.119
+Tasa de deserción (sueño<5h): 0.256
+Tasa de deserción (estres>80): 0.500
