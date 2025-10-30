@@ -1,0 +1,13 @@
+Correlaciones (Pearson) entre columnas clave (DATOS NUMÉRICOS INTERNOS):
+
+                         pps_actual_20  horas_de_estudio_semana  ...  riesgo_de_desercion  bienestar_estudiantil
+pps_actual_20                 1.000000                 0.834132  ...            -0.685165               0.285759
+horas_de_estudio_semana       0.834132                 1.000000  ...            -0.563032               0.072047
+horas_trabajo_semana         -0.059312                -0.017378  ...             0.508226              -0.318670
+estres                       -0.300094                -0.071072  ...             0.525978              -0.774846
+rendimiento                   0.931472                 0.811133  ...            -0.713448               0.249073
+riesgo_de_desercion          -0.685165                -0.563032  ...             1.000000              -0.404348
+bienestar_estudiantil         0.285759                 0.072047  ...            -0.404348               1.000000
+
+[7 rows x 7 columns]
+
