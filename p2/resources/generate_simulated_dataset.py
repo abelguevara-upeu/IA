@@ -1,12 +1,13 @@
-"""Generador reproducible de dataset simulado realista para estudiantes.
+"""Generador reproducible de dataset simulado para Netica (cobertura uniforme y compatible).
 Salida:
- - p2/resources/simulated_students_5000.csv
+ - p2/resources/simulated_students_5000.csv (Archivo categórico principal)
  - p2/resources/simulation_summary_5000.txt
 
 Reglas implementadas (resumen):
  - 5.000 registros
- - Relaciones y problemáticas solicitadas (trabajo, becas, sueño, estrés, semestres, tipo colegio)
- - 5% outliers en variables numéricas
+ - Generación uniforme para cubrir todos los rangos de categorías para Netica.
+ - Relaciones padre-hijo preservadas en las fórmulas.
+ - Salida categórica con '_' en lugar de espacios (ej. 'Con_deuda') para Netica.
  - Datos limpios y listos para entrenamiento (no NaNs)
 """
 
@@ -204,71 +205,78 @@ costo_servicio_mensual = np.where(costo_ratio <= 0.1, 'Muy_bajo',
                            np.where(costo_ratio <= 0.35, 'Medio','Alto')))
 
 # Horas de trabajo por semana
-# most students low, some with high hours
-horas_trabajo_semana = np.random.choice(np.arange(0,61), size=N, p=None)
-# bias: many zeros, few high -> we'll construct distribution
-p = np.random.rand(N)
-horas_trabajo_semana = (np.where(p<0.5, np.random.poisson(4, N), np.random.poisson(12, N)))
-# add tail
-tail_idx = np.random.choice(N, size=int(0.07*N), replace=False)
-horas_trabajo_semana[tail_idx] = horas_trabajo_semana[tail_idx] + np.random.randint(10,41,size=tail_idx.shape[0])
+# <-- MODIFICADO: De Poisson/sesgado a Uniforme para Netica
 ht_lo, ht_hi = VAR_RANGES.get('horas_trabajo_semana', (0,80))
-horas_trabajo_semana = clamp(horas_trabajo_semana, ht_lo, ht_hi)
+horas_trabajo_semana = np.random.uniform(low=ht_lo, high=ht_hi, size=N)
 
 # Horas de estudio correlates with rendimiento (desired corr ~0.6)
-# We'll generate study_hours with moderate variance
-study_base = np.random.normal(loc=12, scale=6, size=N)
+# <-- MODIFICADO: De Normal a Uniforme para Netica
 sd_lo, sd_hi = VAR_RANGES.get('horas_de_estudio_semana', (0,80))
-study_base = clamp(study_base, sd_lo, sd_hi)
+study_base = np.random.uniform(low=sd_lo, high=sd_hi, size=N)
 
 # Sleep hours
-horas_sueno = np.random.normal(loc=7.0, scale=1.2, size=N)
+# <-- MODIFICADO: De Normal a Uniforme para Netica
 hs_lo, hs_hi = VAR_RANGES.get('horas_sueno', (3.0,10.0))
-horas_sueno = clamp(horas_sueno, hs_lo, hs_hi)
+horas_sueno = np.random.uniform(low=hs_lo, high=hs_hi, size=N)
 
 # Stress (0-100) influenced by career, work hours, and low sleep
-estres = 30 + (horas_trabajo_semana * 0.9) - (horas_sueno * 4) + career_stress_shift + np.random.normal(0,10,size=N)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+estres = 30 + (horas_trabajo_semana * 0.9) - (horas_sueno * 4) + career_stress_shift + np.random.uniform(-15, 15, size=N)
 est_lo, est_hi = VAR_RANGES.get('estres', (0,100))
 estres = clamp(estres, est_lo, est_hi)
 
-# Apoyo social (0-100) correlated with tipo_fin and padres conditions
-apoyo_social = 60 + np.random.normal(0,15,size=N) - (tipo_fin=='Pago_directo')*5
+# Apoyo social (0-100)
+# <-- MODIFICADO: De Normal a Uniforme para Netica
 as_lo, as_hi = VAR_RANGES.get('apoyo_social', (0,100))
-apoyo_social = clamp(apoyo_social, as_lo, as_hi)
+apoyo_social = np.random.uniform(low=as_lo, high=as_hi, size=N)
+# Aplicamos el shift categórico después
+apoyo_social = clamp(apoyo_social - (tipo_fin=='Pago_directo')*5, as_lo, as_hi)
+
 
 # Autoeficacia (0-100) will be computed below after we calculate procrastination
 
 # Procrastination index 0-100: inversely related to study hours and autoeficacia
 ip_lo, ip_hi = VAR_RANGES.get('indice_procrastinacion', (0,100))
-indice_procrastinacion = clamp(60 - (study_base*1.8) + np.random.normal(0,12,size=N), ip_lo, ip_hi)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+indice_procrastinacion = clamp(60 - (study_base*1.8) + np.random.uniform(-20, 20, size=N), ip_lo, ip_hi)
 
 # Now compute autoeficacia properly using indice_procrastinacion
 ae_lo, ae_hi = VAR_RANGES.get('autoeficacia_academica', (0,100))
-autoeficacia = clamp(40 + (apoyo_social*0.15) + (study_base*0.9) - (indice_procrastinacion*0.2) + np.random.normal(0,6,size=N), ae_lo, ae_hi)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+autoeficacia = clamp(40 + (apoyo_social*0.15) + (study_base*0.9) - (indice_procrastinacion*0.2) + np.random.uniform(-10, 10, size=N), ae_lo, ae_hi)
 
 # Horas deporte, cultura, extracurriculares
 hd_lo, hd_hi = VAR_RANGES.get('horas_deporte', (0,30))
 hc_lo, hc_hi = VAR_RANGES.get('horas_cultura', (0,30))
 hex_lo, hex_hi = VAR_RANGES.get('horas_extracurriculares', (0,80))
-horas_deporte = clamp(np.random.poisson(1.2, size=N), hd_lo, hd_hi)
-horas_cultura = clamp(np.random.poisson(0.8, size=N), hc_lo, hc_hi)
-horas_extracurriculares = horas_deporte + horas_cultura + np.random.poisson(0.5, size=N)
+# <-- MODIFICADO: De Poisson a Uniforme
+horas_deporte = np.random.uniform(low=hd_lo, high=hd_hi, size=N)
+horas_cultura = np.random.uniform(low=hc_lo, high=hc_hi, size=N)
+# <-- MODIFICADO: Ruido de Poisson a Uniforme
+horas_extracurriculares = horas_deporte + horas_cultura + np.random.uniform(0, 5, size=N)
 horas_extracurriculares = clamp(horas_extracurriculares, hex_lo, hex_hi)
 
 # Entregas puntuales % correlated with procrastination and estudio
 et_lo, et_hi = VAR_RANGES.get('entregas_tarea_puntual', (0,100))
-entregas_tarea_puntual = clamp(80 - (indice_procrastinacion*0.4) + (study_base*0.8) + np.random.normal(0,8,size=N), et_lo, et_hi)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+entregas_tarea_puntual = clamp(80 - (indice_procrastinacion*0.4) + (study_base*0.8) + np.random.uniform(-15, 15, size=N), et_lo, et_hi)
 
 # Horas pantalla no academica negatively impacts estudio modestly
 hp_lo, hp_hi = VAR_RANGES.get('horas_pantalla_no_academica', (0,12))
-horas_pantalla_no_academica = clamp(np.random.normal(3.0,1.8,size=N) + (indice_procrastinacion*0.02), hp_lo, hp_hi)
+# <-- MODIFICADO: De Normal a Uniforme (base)
+hp_base = np.random.uniform(low=hp_lo, high=hp_hi, size=N)
+horas_pantalla_no_academica = clamp(hp_base + (indice_procrastinacion*0.02), hp_lo, hp_hi)
 
 # Alimentacion index 0-100
 al_lo, al_hi = VAR_RANGES.get('alimentacion', (0,100))
-alimentacion = clamp(50 + np.random.normal(0,12,size=N) + (ingresos_num/1000)*10, al_lo, al_hi)
+# <-- MODIFICADO: De Normal a Uniforme (base)
+al_base = np.random.uniform(low=al_lo, high=al_hi, size=N)
+alimentacion = clamp(al_base + (ingresos_num/1000)*10, al_lo, al_hi)
 
 # Calidad de vivienda / condiciones padres (PBC/PHC)
-phc_score = clamp(50 + np.random.normal(0,20,size=N) - (ingresos_num/1000)*15, 0, 100)
+# <-- MODIFICADO: De Normal a Uniforme (base)
+phc_base = np.random.uniform(low=0, high=100, size=N)
+phc_score = clamp(phc_base - (ingresos_num/1000)*15, 0, 100)
 
 # Deuda academica binary and monto
 has_debt = np.random.binomial(1, p=np.where(ingreso_cat=='Muy_bajo',0.6, np.where(ingreso_cat=='Bajo',0.45, np.where(ingreso_cat=='Medio',0.25, 0.08))))
@@ -286,22 +294,28 @@ study_norm = (study_base - study_base.mean())/ (study_base.std()+1e-6)
 sleep_norm = (horas_sueno - horas_sueno.mean())/(horas_sueno.std()+1e-6)
 procr_norm = (indice_procrastinacion - indice_procrastinacion.mean())/(indice_procrastinacion.std()+1e-6)
 
-pps = 12 + (study_norm * 2.8) + (sleep_norm * 1.2) - (procr_norm * 2.0) + (colegio_shift * 0.6) + np.random.normal(0,1.8,size=N)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+pps = 12 + (study_norm * 2.8) + (sleep_norm * 1.2) - (procr_norm * 2.0) + (colegio_shift * 0.6) + np.random.uniform(-3, 3, size=N)
 pp_lo, pp_hi = VAR_RANGES.get('pps_actual_20', (1.0,20.0))
 pps = clamp(np.round(pps,2), pp_lo, pp_hi)
 
 # pps_anterior slightly correlated with current
 ppa_lo, ppa_hi = VAR_RANGES.get('pps_anterior_20', (1.0,20.0))
-pps_anterior = clamp(np.round(pps + np.random.normal(0,1.6,size=N) - np.random.normal(0,0.6,size=N),2), ppa_lo, ppa_hi)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+pps_anterior = clamp(np.round(pps + np.random.uniform(-2.5, 2.5, size=N),2), ppa_lo, ppa_hi)
 
 # rendimiento index composed from pps, entregas, asistencia (we don't have asistencia perc in this sim; approximate)
-asistencia_total_pct = clamp(70 + np.random.normal(0,12,size=N) + (study_base*0.6) - (horas_trabajo_semana*0.3), 0, 100)
+# <-- MODIFICADO: De Normal a Uniforme (base)
+asistencia_base = np.random.uniform(low=0, high=100, size=N)
+asistencia_total_pct = clamp(asistencia_base + (study_base*0.6) - (horas_trabajo_semana*0.3), 0, 100)
+
 rend_lo, rend_hi = VAR_RANGES.get('rendimiento', (0,100))
 rendimiento = clamp( (pps/20)*100*0.5 + entregas_tarea_puntual*0.25 + asistencia_total_pct*0.25 + (autoeficacia*0.1), rend_lo, rend_hi)
 
 # indice_financiero composite from ingresos, deuda, puntualidad
 ifn_lo, ifn_hi = VAR_RANGES.get('indice_financiero', (0,100))
-indice_financiero = clamp( (ingresos_num/ingresos_num.max())*100*0.5 + (1-has_debt)*100*0.3 + (puntualidad_pago)*100*0.2 + np.random.normal(0,6,size=N), ifn_lo, ifn_hi)
+# <-- MODIFICADO: Ruido de Normal a Uniforme
+indice_financiero = clamp( (ingresos_num/ingresos_num.max())*100*0.5 + (1-has_debt)*100*0.3 + (puntualidad_pago)*100*0.2 + np.random.uniform(-10, 10, size=N), ifn_lo, ifn_hi)
 
 # Desercion probability base influenced by rendimiento, horas_trabajo, tipo_fin, estres, tiene hijos, semestre
 # Base prob from low rendimiento
@@ -324,29 +338,9 @@ desercion = np.random.binomial(1, prob_desercion)
 
 # Apply 50% less prob for Beca_total already done via multiplier
 
-# Add 5% outliers in numeric variables: pick indices and inject extremes
-num_vars = ['pps','pps_anterior','study_base','horas_sueno','estres','entregas_tarea_puntual','rendimiento','indice_financiero','ingresos_num']
-out_idx = np.random.choice(N, size=int(0.05*N), replace=False)
-for var in num_vars:
-    if var == 'pps':
-        pps[out_idx] = clamp(pps[out_idx] + np.random.choice([-6,6,8,10], size=out_idx.shape[0]), pp_lo, pp_hi)
-    elif var == 'pps_anterior':
-        pps_anterior[out_idx] = clamp(pps_anterior[out_idx] + np.random.choice([-6,6,8,10], size=out_idx.shape[0]), ppa_lo, ppa_hi)
-    elif var == 'study_base':
-        study_base[out_idx] = study_base[out_idx] + np.random.randint(15,50,size=out_idx.shape[0])
-        study_base = clamp(study_base, sd_lo, sd_hi)
-    elif var == 'horas_sueno':
-        horas_sueno[out_idx] = clamp(horas_sueno[out_idx] + np.random.choice([-3,3,4], size=out_idx.shape[0]), hs_lo, hs_hi)
-    elif var == 'estres':
-        estres[out_idx] = clamp(estres[out_idx] + np.random.choice([20,30,-20], size=out_idx.shape[0]), est_lo, est_hi)
-    elif var == 'entregas_tarea_puntual':
-        entregas_tarea_puntual[out_idx] = clamp(entregas_tarea_puntual[out_idx] + np.random.choice([-40,40], size=out_idx.shape[0]), et_lo, et_hi)
-    elif var == 'rendimiento':
-        rendimiento[out_idx] = clamp(rendimiento[out_idx] + np.random.choice([-40,40], size=out_idx.shape[0]), rend_lo, rend_hi)
-    elif var == 'indice_financiero':
-        indice_financiero[out_idx] = clamp(indice_financiero[out_idx] + np.random.choice([-50,50], size=out_idx.shape[0]), ifn_lo, ifn_hi)
-    elif var == 'ingresos_num':
-        ingresos_num[out_idx] = ingresos_num[out_idx] * np.random.choice([0.2,3,5], size=out_idx.shape[0])
+
+# <-- MODIFICADO: Bloque de Outliers ELIMINADO por completo
+
 
 # Normalize/round and make categorical labels consistent with dic
 pps_actual_20 = np.round(pps,2)
@@ -408,6 +402,9 @@ os.makedirs(OUT_DIR, exist_ok=True)
 df.to_csv(OUT_NUMERIC, index=False)
 
 # --- Create a fully categorical dataset according to the immutable dictionary ---
+# <-- ESTA SECCIÓN NO SE MODIFICA. Es crucial y ahora recibirá
+#     los datos uniformes para categorizarlos correctamente.
+
 def parse_category_ranges(cat_list):
     """Return a list of (label, (lo,hi)) for categories that include 'rango'.
     If range is open-ended, hi or lo can be None.
@@ -654,12 +651,23 @@ try:
         # convert to string and strip
         cat_df[c] = cat_df[c].astype(str).str.strip()
 
+    # <-- INICIO DE LA MODIFICACIÓN: Reemplazar espacios por guion bajo para Netica
+    print("Reemplazando espacios por '_' para compatibilidad con Netica...")
+    for c in cat_df.columns:
+        if c == 'id':
+            continue
+        # Aplicar el reemplazo de espacios por guion bajo en todas las columnas de texto
+        cat_df[c] = cat_df[c].str.replace(' ', '_', regex=False)
+        # Por si acaso había algún guion bajo en el original que ahora es espacio (ej. 'Muy_bajo' -> 'Muy bajo')
+        # Este paso es una doble seguridad.
+    # <-- FIN DE LA MODIFICACIÓN
+
     # Save categorical CSV to both the categorical-specific path and the primary OUT_CSV path
     print('Saving categorical CSV to:', OUT_CSV_CAT)
     cat_df.to_csv(OUT_CSV_CAT, index=False)
     print('Also saving categorical CSV as primary output:', OUT_CSV)
     cat_df.to_csv(OUT_CSV, index=False)
-    print('Categorical CSVs saved.')
+    print('Categorical CSVs (compatibles con Netica) guardados.')
 except Exception as e:
     err_path = OUT_DIR / 'categorical_error.txt'
     with open(err_path, 'w', encoding='utf-8') as ef:
@@ -679,7 +687,7 @@ rate_sleep_bad = df.loc[df.horas_sueno<5, 'desercion'].mean()
 rate_stress_high = df.loc[df.estres>80, 'desercion'].mean()
 
 with open(OUT_SUM, 'w', encoding='utf-8') as f:
-    f.write('Correlaciones (Pearson) entre columnas clave:\n\n')
+    f.write('Correlaciones (Pearson) entre columnas clave (DATOS NUMÉRICOS INTERNOS):\n\n')
     f.write(str(correlations))
     f.write('\n\n')
     f.write(f'Tasa de deserción general: {rate_overall:.3f}\n')
@@ -689,5 +697,6 @@ with open(OUT_SUM, 'w', encoding='utf-8') as f:
     f.write(f'Tasa de deserción (estres>80): {rate_stress_high:.3f}\n')
 
 print('Simulación completada:')
-print(' CSV:', OUT_CSV)
+print(' CSV Categórico (para Netica):', OUT_CSV)
+print(' CSV Numérico (referencia):', OUT_NUMERIC)
 print(' Summary:', OUT_SUM)
